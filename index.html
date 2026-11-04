@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ds.studio · Simple apps for the things you love doing</title>
+<meta name="description" content="ds.studio is an independent app studio. RouteReel turns your runs, rides and hikes into 3D route videos; Wijha brings prayer times, the Qibla and the Quran. No ads, no accounts, your data stays on your phone.">
+<meta name="theme-color" content="#14161c">
+<link rel="canonical" href="https://simplemobapplication.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ds.studio">
+<meta property="og:title" content="ds.studio · Simple apps for the things you love doing">
+<meta property="og:description" content="RouteReel and Wijha: small, focused Android apps. No ads, no accounts, your data stays on your phone.">
+<meta property="og:url" content="https://simplemobapplication.github.io/">
+<meta property="og:image" content="https://simplemobapplication.github.io/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #14161c; --bg2: #191c23; --card: #1d2029; --line: #2b2f3a;
+    --text: #f2f2f4; --muted: #a4a7b0; --orange: #ff6b3d; --yellow: #ffd23f;
+    --gold: #d4af6a; --emerald: #0f2a24;
+    --font: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .skip { position: absolute; left: -999px; top: 8px; background: var(--orange); color: #111; padding: 8px 14px; border-radius: 8px; z-index: 10; }
+  .skip:focus { left: 8px; }
+
+  /* navigacija */
+  header.nav { position: sticky; top: 0; z-index: 5; background: rgba(20, 22, 28, .82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #ffffff10; }
+  header.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; letter-spacing: .2px; }
+  .brand img { width: 34px; height: 34px; border-radius: 9px; }
+  .brand .dot { color: var(--orange); }
+  nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
+  nav a { text-decoration: none; color: var(--muted); }
+  nav a:hover { color: var(--text); }
+
+  /* zaglavlje */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid #ffffff0d;
+    background: radial-gradient(48% 60% at 82% 30%, #ff6b3d1f, transparent 70%), radial-gradient(40% 50% at 10% 90%, #6c8cff14, transparent 70%), var(--bg); }
+  .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
+    background-image: radial-gradient(#ffffff1c 1.2px, transparent 1.3px); background-size: 26px 26px;
+    -webkit-mask-image: linear-gradient(180deg, #000, #0000 95%); mask-image: linear-gradient(180deg, #000, #0000 95%); }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding-top: 84px; padding-bottom: 92px; }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+  .hero h1 { font-size: clamp(40px, 5.6vw, 68px); line-height: 1.04; letter-spacing: -1.2px; margin: 0 0 22px; font-weight: 800; }
+  .hero h1 .end { display: inline-block; width: .2em; height: .2em; border-radius: 50%; background: var(--orange); margin-left: .06em; vertical-align: baseline; }
+  .hero p.sub { font-size: clamp(18px, 2vw, 21px); color: #cfd1d8; max-width: 520px; margin: 0 0 30px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cta .btn { font-size: 16px; padding: 12px 20px; border-radius: 14px; }
+
+  /* dva telefona sa pravim ekranima, ikonice aplikacija i mesto za sledeću */
+  .stage { position: relative; height: 580px; width: 100%; max-width: 500px; justify-self: end; }
+  .phone { position: absolute; width: 238px; border-radius: 38px; background: #0b0c10; padding: 8px; box-shadow: 0 30px 60px #000a, inset 0 0 0 1px #ffffff1c; animation: float 8s ease-in-out infinite; }
+  .phone .scr { border-radius: 30px; overflow: hidden; aspect-ratio: 1170 / 2532; background: #000; }
+  .phone .scr img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .phone.rr { left: 0; top: 56px; --r: -7deg; z-index: 1; }
+  .phone.rr .scr { aspect-ratio: 1220 / 2600; }
+  .phone.rr .scr img { object-position: 50% 100%; }
+  .phone.wj { right: 0; top: 0; --r: 6deg; z-index: 2; animation-delay: -4s; }
+  .badge { position: absolute; display: flex; align-items: center; gap: 10px; padding: 7px 14px 7px 7px; border-radius: 18px; background: #1d2029f2; border: 1px solid #ffffff1a; box-shadow: 0 12px 30px #0009; font-weight: 700; font-size: 15px; z-index: 3; white-space: nowrap; }
+  .badge img { width: 40px; height: 40px; border-radius: 11px; }
+  .badge.rr { left: -18px; bottom: 34px; }
+  .badge.wj { right: -14px; top: 300px; }
+  .next { position: absolute; left: 50%; bottom: -6px; width: 92px; height: 92px; margin-left: -46px; border-radius: 26px; border: 2px dashed #ffffff33; display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 12px; line-height: 1.2; z-index: 0; --r: 4deg; animation: float 9s ease-in-out infinite; animation-delay: -2s; }
+  .next b { display: block; font-size: 30px; line-height: 1; color: var(--text); font-weight: 400; }
+  .spark { position: absolute; border-radius: 50%; z-index: 0; --r: 0deg; animation: float 6s ease-in-out infinite; }
+  .spark.o { width: 22px; height: 22px; background: var(--orange); left: 46%; top: 6px; }
+  .spark.y { width: 30px; height: 30px; border: 4px solid var(--yellow); right: -10px; bottom: 120px; animation-delay: -3s; }
+  @keyframes float { 0%, 100% { transform: rotate(var(--r, 0deg)) translateY(0); } 50% { transform: rotate(var(--r, 0deg)) translateY(-8px); } }
+  @media (prefers-reduced-motion: reduce) { .phone, .next, .spark { animation: none; transform: rotate(var(--r, 0deg)); } }
+  section { padding: 64px 0; }
+  h2 { font-size: clamp(28px, 3.4vw, 38px); line-height: 1.15; margin: 0 0 10px; letter-spacing: -.3px; }
+  h2 .dot { color: var(--orange); }
+  .lead { color: var(--muted); margin: 0 0 36px; }
+
+  /* aplikacije */
+  .app { display: grid; grid-template-columns: 1fr 1.15fr; gap: 40px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: 40px; margin-bottom: 28px; overflow: hidden; position: relative; }
+  .app::before { content: ""; position: absolute; inset: 0; pointer-events: none; }
+  .app.rr::before { background: radial-gradient(60% 80% at 100% 0%, #ff6b3d22, transparent 70%); }
+  .app.wj { background: linear-gradient(160deg, #143329, #0d221d); border-color: #d4af6a33; }
+  .app.wj::before { background: radial-gradient(60% 80% at 100% 0%, #d4af6a1f, transparent 70%); }
+  .app > * { position: relative; }
+  .app-head { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .app-head img { width: 72px; height: 72px; border-radius: 18px; box-shadow: 0 8px 24px #0006; }
+  .app-head h3 { margin: 0; font-size: 28px; line-height: 1.1; }
+  .app-head .sub { color: var(--muted); font-size: 15px; }
+  .ar { font-family: "Geeza Pro", "Noto Naskh Arabic", "Segoe UI", serif; color: var(--gold); font-weight: 400; margin-left: 6px; }
+  .app p.pitch { font-size: 19px; margin: 0 0 16px; }
+  .app ul.points { margin: 0 0 22px; padding: 0; list-style: none; }
+  .app ul.points li { position: relative; padding-left: 22px; margin: 7px 0; color: #d6d7dd; }
+  .app ul.points li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+  .app.wj ul.points li::before { background: var(--gold); transform: rotate(45deg); border-radius: 1px; }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; letter-spacing: .4px; text-transform: uppercase; color: var(--yellow); border: 1px solid #ffd23f55; border-radius: 999px; padding: 4px 12px; margin-bottom: 18px; }
+  .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); }
+  .app.wj .status { color: var(--gold); border-color: #d4af6a66; }
+  .app.wj .status::before { background: var(--gold); }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-size: 15px; font-weight: 600; padding: 9px 16px; border-radius: 12px; border: 1px solid var(--line); background: #ffffff08; }
+  .btn:hover { background: #ffffff14; }
+  .btn.main { background: var(--orange); border-color: var(--orange); color: #16120f; }
+  .btn.main:hover { background: #ff8259; }
+  .app.wj .btn { border-color: #d4af6a44; }
+  .app.wj .btn.main { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
+  .shots { display: flex; gap: 14px; justify-content: flex-end; }
+  .shots img, .shots video { width: calc((100% - 28px) / 3); max-width: 200px; aspect-ratio: 9 / 16; height: auto; border-radius: 16px; box-shadow: 0 14px 34px #0008; border: 1px solid #ffffff12; object-fit: cover; background: #0f1115; }
+  .shots > :nth-child(2) { transform: translateY(-18px); max-width: 220px; width: calc((100% - 28px) / 3 * 1.1); box-shadow: 0 18px 44px #000a; }
+
+  /* kako radimo */
+  .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .principle { background: var(--bg2); border: 1px solid var(--line); border-radius: 20px; padding: 28px; }
+  .principle .ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: #ff6b3d1a; margin-bottom: 14px; }
+  .principle h3 { margin: 0 0 6px; font-size: 20px; }
+  .principle p { margin: 0; color: var(--muted); font-size: 16px; }
+
+  /* kontakt */
+  .contact { text-align: center; background: radial-gradient(70% 120% at 50% 0%, #ff6b3d1c, transparent 70%), var(--bg2); border: 1px solid var(--line); border-radius: 28px; padding: 52px 24px; }
+  .contact p { color: var(--muted); margin: 0 0 22px; }
+  .contact .mail { font-size: clamp(18px, 2.6vw, 24px); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+
+  footer { border-top: 1px solid #ffffff10; padding: 32px 0 44px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--text); }
+  footer .legal span { margin-right: 18px; white-space: nowrap; }
+
+  @media (max-width: 880px) {
+    .hero .wrap { grid-template-columns: 1fr; padding-top: 56px; padding-bottom: 64px; gap: 44px; }
+    .stage { justify-self: center; height: 500px; max-width: 400px; }
+    .phone { width: 196px; border-radius: 32px; }
+    .phone .scr { border-radius: 25px; }
+    .badge.wj { top: 250px; }
+    .app { grid-template-columns: 1fr; padding: 28px 22px; gap: 28px; }
+    .shots { justify-content: center; }
+    .principles { grid-template-columns: 1fr; }
+    nav ul { gap: 18px; }
+  }
+  @media (max-width: 520px) {
+    nav ul li.opt { display: none; }
+    section { padding: 48px 0; }
+    .shots > :nth-child(2) { transform: none; }
+    .stage { height: 440px; max-width: 330px; }
+    .phone { width: 162px; border-radius: 28px; padding: 6px; }
+    .phone .scr { border-radius: 22px; }
+    .badge { font-size: 13px; padding: 5px 11px 5px 5px; }
+    .badge img { width: 32px; height: 32px; border-radius: 9px; }
+    .badge.rr { left: -6px; bottom: 30px; }
+    .badge.wj { right: -6px; top: 206px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#apps">Skip to the apps</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="ds.studio, back to top"><img src="assets/ds-icon-96.png" alt="" width="34" height="34"><span>ds<span class="dot">.</span>studio</span></a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#apps">Apps</a></li>
+        <li class="opt"><a href="#how">How we build</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Independent app studio</p>
+        <h1>Simple apps for the things you love doing<span class="end" aria-hidden="true"></span></h1>
+        <p class="sub">From route videos to prayer times: small, focused apps for Android. No accounts, no ads, and your data stays on your phone.</p>
+        <div class="cta">
+          <a class="btn main" href="#apps">See our apps</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <div class="stage">
+        <span class="spark o" aria-hidden="true"></span>
+        <span class="spark y" aria-hidden="true"></span>
+        <div class="phone rr"><div class="scr"><img src="assets/hero-rr.jpg" width="560" height="1245" alt="RouteReel playing a 3D video of a morning ride, with a photo pinned on the route"></div></div>
+        <div class="phone wj"><div class="scr"><img src="assets/hero-wj.jpg" width="560" height="1213" alt="Wijha showing today's prayer times along the sun's path"></div></div>
+        <a class="badge rr" href="#rr-name"><img src="assets/routereel.png" alt="">RouteReel</a>
+        <a class="badge wj" href="#wj-name"><img src="assets/wijha.png" alt="">Wijha</a>
+        <div class="next" aria-hidden="true"><span><b>+</b>next app</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="apps">
+    <div class="wrap">
+      <h2>Our apps<span class="dot">.</span></h2>
+      <p class="lead">Made by one developer at ds.studio. Both are in testing on Google Play.</p>
+
+      <article class="app rr" aria-labelledby="rr-name">
+        <div>
+          <div class="app-head">
+            <img src="assets/routereel.png" alt="RouteReel icon" width="72" height="72">
+            <div><h3 id="rr-name">RouteReel</h3><div class="sub">Route Video Maker</div></div>
+          </div>
+          <div class="status">In testing on Google Play</div>
+          <p class="pitch">Turn your runs, rides and hikes into short 3D map videos for Stories and Reels.</p>
+          <ul class="points">
+            <li>From a Health Connect workout or any GPX file: Strava, Garmin, Komoot, Mi Fitness</li>
+            <li>A 3D camera flight over your route with live stats, a character and your photos</li>
+            <li>Made on your phone, ready to share in a minute. No account, no ads</li>
+          </ul>
+          <div class="links">
+            <a class="btn main" href="https://simplemobapplication.github.io/routereel/">About RouteReel</a>
+            <a class="btn" href="https://simplemobapplication.github.io/routereel/privacy.html">Privacy</a>
+            <a class="btn" href="https://simplemobapplication.github.io/routereel/terms.html">Terms</a>
+          </div>
+        </div>
+        <div class="shots">
+          <img src="assets/rr-1.jpg" width="480" height="853" loading="lazy" alt="RouteReel: a 3D video of a ride with a photo pinned on the route">
+          <video src="assets/video/routereel.mp4" poster="assets/video/routereel-poster.jpg" width="540" height="960" autoplay muted loop playsinline preload="metadata" aria-label="RouteReel promo video: a route turns into a 3D video with live stats, photos and map styles"></video>
+          <img src="assets/rr-3.jpg" width="480" height="853" loading="lazy" alt="RouteReel: choosing a workout from Health Connect or a GPX file">
+        </div>
+      </article>
+
+      <article class="app wj" aria-labelledby="wj-name">
+        <div>
+          <div class="app-head">
+            <img src="assets/wijha.png" alt="Wijha icon" width="72" height="72">
+            <div><h3 id="wj-name">Wijha <span class="ar" lang="ar">وجهة</span></h3><div class="sub">Prayer Times &amp; Qibla</div></div>
+          </div>
+          <div class="status">In testing on Google Play</div>
+          <p class="pitch">Prayer times, the Qibla and the whole Quran, in one calm and private app.</p>
+          <ul class="points">
+            <li>Accurate prayer times with the adhan, reminders and a live Qibla compass</li>
+            <li>The complete Quran with translations, duas, adhkar, tasbih and a Hijri calendar</li>
+            <li>Every feature is free. No ads, and your location stays on your phone</li>
+          </ul>
+          <div class="links">
+            <a class="btn main" href="https://simplemobapplication.github.io/wijhi/privacy.html">Privacy policy</a>
+          </div>
+        </div>
+        <div class="shots">
+          <img src="assets/wj-1.jpg" width="480" height="853" loading="lazy" alt="Wijha: prayer times with the sun's path over the day">
+          <video src="assets/video/wijha.mp4" poster="assets/video/wijha-poster.jpg" width="540" height="960" autoplay muted loop playsinline preload="metadata" aria-label="Wijha promo video: prayer times, the Qibla, the Quran, tasbih and Ramadan"></video>
+          <img src="assets/wj-3.jpg" width="480" height="853" loading="lazy" alt="Wijha: the first page of the Quran in the mushaf reader">
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>How we build<span class="dot">.</span></h2>
+      <p class="lead">The same three rules for every app.</p>
+      <div class="principles">
+        <div class="principle">
+          <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6b3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+          <h3>Private by design</h3>
+          <p>No accounts, no ads and no trackers. Your routes, prayers and settings stay on your phone.</p>
+        </div>
+        <div class="principle">
+          <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6b3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>Simple on purpose</h3>
+          <p>Each app does one job and tries to do it beautifully: clear screens, no clutter, nothing to set up first.</p>
+        </div>
+        <div class="principle">
+          <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6b3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+          <h3>Fair</h3>
+          <p>The core of every app is free. Optional subscriptions through Google Play unlock extras, and you can cancel any time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <h2>Say hello<span class="dot">.</span></h2>
+        <p>Questions, ideas or a bug to report? Write to us, we read every message.</p>
+        <a class="mail" href="mailto:simple.mob.application@gmail.com">simple.mob.application@gmail.com</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 ds.studio</div>
+    <div class="legal">
+      <span>RouteReel: <a href="https://simplemobapplication.github.io/routereel/privacy.html">Privacy</a> · <a href="https://simplemobapplication.github.io/routereel/terms.html">Terms</a></span>
+      <span>Wijha: <a href="https://simplemobapplication.github.io/wijhi/privacy.html">Privacy</a></span>
+    </div>
+  </div>
+</footer>
+<script>
+  // bez automatskog videa za one koji su u telefonu tražili manje pokreta
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('video').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); v.controls = true; });
+</script>
+</body>
+</html>
