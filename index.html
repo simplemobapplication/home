@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ds.studio · Simple apps for the things you love doing</title>
 <meta name="description" content="ds.studio is an independent app studio. RouteReel turns your runs, rides and hikes into 3D route videos; Wijha brings prayer times, the Qibla and the Quran. No ads, no accounts, your data stays on your phone.">
-<meta name="theme-color" content="#14161c">
+<meta name="theme-color" content="#161412">
 <link rel="canonical" href="https://simplemobapplication.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ds.studio">
@@ -17,9 +17,10 @@
 <link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
+  /* topla tamna tema: v2 (daylight) prebačena u tamno */
   :root {
-    --bg: #14161c; --bg2: #191c23; --card: #1d2029; --line: #2b2f3a;
-    --text: #f2f2f4; --muted: #a4a7b0; --orange: #ff6b3d; --yellow: #ffd23f;
+    --bg: #161412; --bg2: #1c1916; --card: #211e1a; --line: #332e28;
+    --text: #f4f1ec; --muted: #a8a299; --orange: #ff6b3d; --yellow: #f2c14e;
     --gold: #d4af6a; --emerald: #0f2a24;
     --font: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
@@ -34,7 +35,7 @@
   .skip:focus { left: 8px; }
 
   /* navigacija */
-  header.nav { position: sticky; top: 0; z-index: 5; background: rgba(20, 22, 28, .82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #ffffff10; }
+  header.nav { position: sticky; top: 0; z-index: 5; background: rgba(22, 20, 18, .84); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #ffffff10; }
   header.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; letter-spacing: .2px; }
   .brand img { width: 34px; height: 34px; border-radius: 9px; }
@@ -45,28 +46,28 @@
 
   /* zaglavlje */
   .hero { position: relative; overflow: hidden; border-bottom: 1px solid #ffffff0d;
-    background: radial-gradient(48% 60% at 82% 30%, #ff6b3d1f, transparent 70%), radial-gradient(40% 50% at 10% 90%, #6c8cff14, transparent 70%), var(--bg); }
-  .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
+    background: radial-gradient(48% 60% at 82% 30%, #ff6b3d1f, transparent 70%), radial-gradient(40% 50% at 10% 90%, #d4af6a12, transparent 70%), var(--bg); }
+  .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .4;
     background-image: radial-gradient(#ffffff1c 1.2px, transparent 1.3px); background-size: 26px 26px;
     -webkit-mask-image: linear-gradient(180deg, #000, #0000 95%); mask-image: linear-gradient(180deg, #000, #0000 95%); }
   .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding-top: 84px; padding-bottom: 92px; }
   .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
   .hero h1 { font-size: clamp(40px, 5.6vw, 68px); line-height: 1.04; letter-spacing: -1.2px; margin: 0 0 22px; font-weight: 800; }
   .hero h1 .end { display: inline-block; width: .2em; height: .2em; border-radius: 50%; background: var(--orange); margin-left: .06em; vertical-align: baseline; }
-  .hero p.sub { font-size: clamp(18px, 2vw, 21px); color: #cfd1d8; max-width: 520px; margin: 0 0 30px; }
+  .hero p.sub { font-size: clamp(18px, 2vw, 21px); color: #d6d1c9; max-width: 520px; margin: 0 0 30px; }
   .cta { display: flex; flex-wrap: wrap; gap: 12px; }
   .cta .btn { font-size: 16px; padding: 12px 20px; border-radius: 14px; }
 
   /* dve "reel" kartice sa promo videom (varijanta B), pločice aplikacija i mesto za sledeću */
   .reels { position: relative; height: 640px; width: 100%; max-width: 540px; justify-self: end; }
-  .reels .glow { position: absolute; width: 360px; height: 360px; border-radius: 50%; filter: blur(64px); opacity: .5; pointer-events: none; }
+  .reels .glow { position: absolute; width: 360px; height: 360px; border-radius: 50%; filter: blur(64px); opacity: .36; pointer-events: none; }
   .reels .glow.o { background: var(--orange); left: -10px; top: 40px; }
   .reels .glow.g { background: #1f6b50; right: -10px; top: 220px; }
   .reel { position: absolute; width: 262px; aspect-ratio: 9 / 16; border-radius: 30px; overflow: hidden; background: #000; box-shadow: 0 34px 70px #000b, 0 0 0 1px #ffffff1f; animation: float 9s ease-in-out infinite; }
   .reel video { width: 100%; height: 100%; object-fit: cover; display: block; }
   .reel.rr { left: 10px; top: 46px; --r: -6deg; }
   .reel.wj { right: 10px; top: 116px; --r: 5deg; animation-delay: -4.5s; }
-  .badge { position: absolute; display: flex; align-items: center; gap: 10px; padding: 7px 16px 7px 7px; border-radius: 18px; background: #1d2029f0; border: 1px solid #ffffff1a; box-shadow: 0 12px 30px #0009; z-index: 3; text-decoration: none; white-space: nowrap; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: transform .2s ease, border-color .2s; }
+  .badge { position: absolute; display: flex; align-items: center; gap: 10px; padding: 7px 16px 7px 7px; border-radius: 18px; background: #211e1af0; border: 1px solid #ffffff1a; box-shadow: 0 12px 30px #0009; z-index: 3; text-decoration: none; white-space: nowrap; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: transform .2s ease, border-color .2s; }
   .badge:hover { transform: translateY(-2px); border-color: #ffffff38; }
   .badge img { width: 40px; height: 40px; border-radius: 11px; }
   .badge b { display: block; font-size: 15px; line-height: 1.15; }
@@ -95,7 +96,7 @@
   .ar { font-family: "Geeza Pro", "Noto Naskh Arabic", "Segoe UI", serif; color: var(--gold); font-weight: 400; margin-left: 6px; }
   .app p.pitch { font-size: 19px; margin: 0 0 16px; }
   .app ul.points { margin: 0 0 22px; padding: 0; list-style: none; }
-  .app ul.points li { position: relative; padding-left: 22px; margin: 7px 0; color: #d6d7dd; }
+  .app ul.points li { position: relative; padding-left: 22px; margin: 7px 0; color: #dcd7cf; }
   .app ul.points li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
   .app.wj ul.points li::before { background: var(--gold); transform: rotate(45deg); border-radius: 1px; }
   .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; letter-spacing: .4px; text-transform: uppercase; color: var(--yellow); border: 1px solid #ffd23f55; border-radius: 999px; padding: 4px 12px; margin-bottom: 18px; }
