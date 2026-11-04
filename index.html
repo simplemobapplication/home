@@ -57,26 +57,25 @@
   .cta { display: flex; flex-wrap: wrap; gap: 12px; }
   .cta .btn { font-size: 16px; padding: 12px 20px; border-radius: 14px; }
 
-  /* dva telefona sa pravim ekranima, ikonice aplikacija i mesto za sledeću */
-  .stage { position: relative; height: 580px; width: 100%; max-width: 500px; justify-self: end; }
-  .phone { position: absolute; width: 238px; border-radius: 38px; background: #0b0c10; padding: 8px; box-shadow: 0 30px 60px #000a, inset 0 0 0 1px #ffffff1c; animation: float 8s ease-in-out infinite; }
-  .phone .scr { border-radius: 30px; overflow: hidden; aspect-ratio: 1170 / 2532; background: #000; }
-  .phone .scr img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .phone.rr { left: 0; top: 56px; --r: -7deg; z-index: 1; }
-  .phone.rr .scr { aspect-ratio: 1220 / 2600; }
-  .phone.rr .scr img { object-position: 50% 100%; }
-  .phone.wj { right: 0; top: 0; --r: 6deg; z-index: 2; animation-delay: -4s; }
-  .badge { position: absolute; display: flex; align-items: center; gap: 10px; padding: 7px 14px 7px 7px; border-radius: 18px; background: #1d2029f2; border: 1px solid #ffffff1a; box-shadow: 0 12px 30px #0009; font-weight: 700; font-size: 15px; z-index: 3; white-space: nowrap; }
+  /* dve "reel" kartice sa promo videom (varijanta B), pločice aplikacija i mesto za sledeću */
+  .reels { position: relative; height: 640px; width: 100%; max-width: 540px; justify-self: end; }
+  .reels .glow { position: absolute; width: 360px; height: 360px; border-radius: 50%; filter: blur(64px); opacity: .5; pointer-events: none; }
+  .reels .glow.o { background: var(--orange); left: -10px; top: 40px; }
+  .reels .glow.g { background: #1f6b50; right: -10px; top: 220px; }
+  .reel { position: absolute; width: 262px; aspect-ratio: 9 / 16; border-radius: 30px; overflow: hidden; background: #000; box-shadow: 0 34px 70px #000b, 0 0 0 1px #ffffff1f; animation: float 9s ease-in-out infinite; }
+  .reel video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .reel.rr { left: 10px; top: 46px; --r: -6deg; }
+  .reel.wj { right: 10px; top: 116px; --r: 5deg; animation-delay: -4.5s; }
+  .badge { position: absolute; display: flex; align-items: center; gap: 10px; padding: 7px 16px 7px 7px; border-radius: 18px; background: #1d2029f0; border: 1px solid #ffffff1a; box-shadow: 0 12px 30px #0009; z-index: 3; text-decoration: none; white-space: nowrap; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: transform .2s ease, border-color .2s; }
+  .badge:hover { transform: translateY(-2px); border-color: #ffffff38; }
   .badge img { width: 40px; height: 40px; border-radius: 11px; }
-  .badge.rr { left: -18px; bottom: 34px; }
-  .badge.wj { right: -14px; top: 300px; }
-  .next { position: absolute; left: 50%; bottom: -6px; width: 92px; height: 92px; margin-left: -46px; border-radius: 26px; border: 2px dashed #ffffff33; display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 12px; line-height: 1.2; z-index: 0; --r: 4deg; animation: float 9s ease-in-out infinite; animation-delay: -2s; }
-  .next b { display: block; font-size: 30px; line-height: 1; color: var(--text); font-weight: 400; }
-  .spark { position: absolute; border-radius: 50%; z-index: 0; --r: 0deg; animation: float 6s ease-in-out infinite; }
-  .spark.o { width: 22px; height: 22px; background: var(--orange); left: 46%; top: 6px; }
-  .spark.y { width: 30px; height: 30px; border: 4px solid var(--yellow); right: -10px; bottom: 120px; animation-delay: -3s; }
+  .badge b { display: block; font-size: 15px; line-height: 1.15; }
+  .badge small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); line-height: 1.15; }
+  .badge.rr { left: -6px; top: 530px; }
+  .badge.wj { right: -6px; top: 592px; }
+  .next { position: absolute; left: 50%; top: 4px; transform: translateX(-50%); padding: 6px 14px; border-radius: 999px; border: 2px dashed #ffffff33; background: var(--bg); color: var(--muted); font-size: 13px; white-space: nowrap; z-index: 3; }
   @keyframes float { 0%, 100% { transform: rotate(var(--r, 0deg)) translateY(0); } 50% { transform: rotate(var(--r, 0deg)) translateY(-8px); } }
-  @media (prefers-reduced-motion: reduce) { .phone, .next, .spark { animation: none; transform: rotate(var(--r, 0deg)); } }
+  @media (prefers-reduced-motion: reduce) { .reel { animation: none; transform: rotate(var(--r, 0deg)); } }
   section { padding: 64px 0; }
   h2 { font-size: clamp(28px, 3.4vw, 38px); line-height: 1.15; margin: 0 0 10px; letter-spacing: -.3px; }
   h2 .dot { color: var(--orange); }
@@ -111,8 +110,8 @@
   .app.wj .btn { border-color: #d4af6a44; }
   .app.wj .btn.main { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
   .shots { display: flex; gap: 14px; justify-content: flex-end; }
-  .shots img, .shots video { width: calc((100% - 28px) / 3); max-width: 200px; aspect-ratio: 9 / 16; height: auto; border-radius: 16px; box-shadow: 0 14px 34px #0008; border: 1px solid #ffffff12; object-fit: cover; background: #0f1115; }
-  .shots > :nth-child(2) { transform: translateY(-18px); max-width: 220px; width: calc((100% - 28px) / 3 * 1.1); box-shadow: 0 18px 44px #000a; }
+  .shots img { width: calc((100% - 28px) / 3); max-width: 200px; aspect-ratio: 9 / 16; height: auto; border-radius: 16px; box-shadow: 0 14px 34px #0008; border: 1px solid #ffffff12; }
+  .shots > :nth-child(2) { transform: translateY(-18px); }
 
   /* kako radimo */
   .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -134,10 +133,9 @@
 
   @media (max-width: 880px) {
     .hero .wrap { grid-template-columns: 1fr; padding-top: 56px; padding-bottom: 64px; gap: 44px; }
-    .stage { justify-self: center; height: 500px; max-width: 400px; }
-    .phone { width: 196px; border-radius: 32px; }
-    .phone .scr { border-radius: 25px; }
-    .badge.wj { top: 250px; }
+    .reels { justify-self: center; height: 580px; max-width: 440px; }
+    .reel { width: 220px; border-radius: 26px; }
+    .badge.rr { top: 460px; } .badge.wj { top: 520px; }
     .app { grid-template-columns: 1fr; padding: 28px 22px; gap: 28px; }
     .shots { justify-content: center; }
     .principles { grid-template-columns: 1fr; }
@@ -147,13 +145,14 @@
     nav ul li.opt { display: none; }
     section { padding: 48px 0; }
     .shots > :nth-child(2) { transform: none; }
-    .stage { height: 440px; max-width: 330px; }
-    .phone { width: 162px; border-radius: 28px; padding: 6px; }
-    .phone .scr { border-radius: 22px; }
-    .badge { font-size: 13px; padding: 5px 11px 5px 5px; }
+    .reels { height: 470px; max-width: 340px; }
+    .reels .glow { width: 220px; height: 220px; }
+    .reel { width: 168px; border-radius: 22px; }
+    .reel.rr { left: 0; top: 40px; } .reel.wj { right: 0; top: 96px; }
+    .badge { padding: 5px 12px 5px 5px; }
     .badge img { width: 32px; height: 32px; border-radius: 9px; }
-    .badge.rr { left: -6px; bottom: 30px; }
-    .badge.wj { right: -6px; top: 206px; }
+    .badge b { font-size: 13px; } .badge small { font-size: 11px; }
+    .badge.rr { left: 0; top: 362px; } .badge.wj { right: 0; top: 414px; }
   }
 </style>
 </head>
@@ -185,14 +184,13 @@
           <a class="btn" href="#contact">Get in touch</a>
         </div>
       </div>
-      <div class="stage">
-        <span class="spark o" aria-hidden="true"></span>
-        <span class="spark y" aria-hidden="true"></span>
-        <div class="phone rr"><div class="scr"><img src="assets/hero-rr.jpg" width="560" height="1245" alt="RouteReel playing a 3D video of a morning ride, with a photo pinned on the route"></div></div>
-        <div class="phone wj"><div class="scr"><img src="assets/hero-wj.jpg" width="560" height="1213" alt="Wijha showing today's prayer times along the sun's path"></div></div>
-        <a class="badge rr" href="#rr-name"><img src="assets/routereel.png" alt="">RouteReel</a>
-        <a class="badge wj" href="#wj-name"><img src="assets/wijha.png" alt="">Wijha</a>
-        <div class="next" aria-hidden="true"><span><b>+</b>next app</span></div>
+      <div class="reels">
+        <span class="glow o" aria-hidden="true"></span><span class="glow g" aria-hidden="true"></span>
+        <div class="next" aria-hidden="true">+ next app, soon</div>
+        <div class="reel rr"><video src="assets/video/routereel.mp4" poster="assets/video/routereel-poster.jpg" width="540" height="960" autoplay muted loop playsinline preload="metadata" aria-label="RouteReel promo video: a route turns into a 3D video with live stats, photos and map styles"></video></div>
+        <div class="reel wj"><video src="assets/video/wijha.mp4" poster="assets/video/wijha-poster.jpg" width="540" height="960" autoplay muted loop playsinline preload="metadata" aria-label="Wijha promo video: prayer times, the Qibla, the Quran, tasbih and Ramadan"></video></div>
+        <a class="badge rr" href="#rr-name"><img src="assets/routereel.png" alt=""><span><b>RouteReel</b><small>Route videos</small></span></a>
+        <a class="badge wj" href="#wj-name"><img src="assets/wijha.png" alt=""><span><b>Wijha</b><small>Prayer &amp; Qibla</small></span></a>
       </div>
     </div>
   </div>
@@ -223,7 +221,7 @@
         </div>
         <div class="shots">
           <img src="assets/rr-1.jpg" width="480" height="853" loading="lazy" alt="RouteReel: a 3D video of a ride with a photo pinned on the route">
-          <video src="assets/video/routereel.mp4" poster="assets/video/routereel-poster.jpg" width="540" height="960" autoplay muted loop playsinline preload="metadata" aria-label="RouteReel promo video: a route turns into a 3D video with live stats, photos and map styles"></video>
+          <img src="assets/rr-2.jpg" width="480" height="853" loading="lazy" alt="RouteReel: the end of the video with distance, time and speed">
           <img src="assets/rr-3.jpg" width="480" height="853" loading="lazy" alt="RouteReel: choosing a workout from Health Connect or a GPX file">
         </div>
       </article>
@@ -247,7 +245,7 @@
         </div>
         <div class="shots">
           <img src="assets/wj-1.jpg" width="480" height="853" loading="lazy" alt="Wijha: prayer times with the sun's path over the day">
-          <video src="assets/video/wijha.mp4" poster="assets/video/wijha-poster.jpg" width="540" height="960" autoplay muted loop playsinline preload="metadata" aria-label="Wijha promo video: prayer times, the Qibla, the Quran, tasbih and Ramadan"></video>
+          <img src="assets/wj-2.jpg" width="480" height="853" loading="lazy" alt="Wijha: the Qibla compass and the distance to Makkah">
           <img src="assets/wj-3.jpg" width="480" height="853" loading="lazy" alt="Wijha: the first page of the Quran in the mushaf reader">
         </div>
       </article>
